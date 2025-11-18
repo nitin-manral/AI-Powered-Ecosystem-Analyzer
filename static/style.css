@@ -1,0 +1,336 @@
+/* Global reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f5f7fb;   /* light grey, not green */
+    color: #222;
+}
+
+
+/* Layout */
+.container {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    padding: 0 16px;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(90deg, #2e8b57, #1f6f40);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.navbar-title {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+
+.nav-links a {
+    color: #ffffff;
+    margin-left: 18px;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Headings */
+.page-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 18px;
+}
+
+/* Cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    border: 1px solid #e2e6f0;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+}
+
+.card-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.card-value {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Sections */
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 18px 0 10px;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f3f4f8;
+    font-weight: 600;
+}
+
+/* pandas dataframe table */
+table.dataframe {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table.dataframe th {
+    background-color: #f3f4f8;
+    font-weight: 600;
+}
+
+table.dataframe tr:nth-child(even) {
+    background-color: #fafbff;
+}
+
+/* Alerts table row colors */
+.high-temp {
+    background-color: #ffe6e6;
+}
+
+.low-hum {
+    background-color: #e6f2ff;
+}
+
+.high-aqi {
+    background-color: #fff1cc;
+}
+
+.high-alerts {
+    background-color: #fff1cc;
+}
+
+/* AQI image */
+.chart-img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+    background: #ffffff;
+    padding: 8px;
+}
+
+/* Links & buttons */
+a {
+    color: #2e8b57;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    background: #2e8b57;
+    color: #ffffff;
+}
+
+.btn:hover {
+    background: #256c44;
+}
+
+/* Forms */
+
+form p {
+    margin-bottom: 12px;
+}
+
+input[type="number"] {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    width: 260px;
+    font-size: 14px;
+}
+
+/* Prediction form card */
+.prediction-card {
+    margin-top: 8px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 18px 20px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    border: 1px solid #e2e6f0;
+    max-width: 640px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.form-group input[type="number"] {
+    width: 100%;
+}
+
+.prediction-actions {
+    margin-top: 4px;
+}
+
+/* Result page */
+.result-panel {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.result-box {
+    margin-top: 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ffffff, #e8f5e9);
+    padding: 22px 24px 24px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+    border: 1px solid #d1e2d6;
+}
+
+.result-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.result-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.result-risk-line {
+    margin-top: 16px;
+}
+
+.risk-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* Back button style */
+.btn-outline {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #2e8b57;
+    color: #2e8b57;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: #2e8b57;
+    color: #ffffff;
+}
+
+
+/* About content */
+.about-section ul {
+    margin-left: 20px;
+    margin-top: 8px;
+}
+
+.about-section li {
+    margin-bottom: 4px;
+}
+
+/* Small text */
+.muted {
+    font-size: 12px;
+    color: #777;
+    margin-top: 16px;
+}
+
+.main-panel {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px 24px 28px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    border: 1px solid #e0e4f0;
+    margin-top: 10px;
+}

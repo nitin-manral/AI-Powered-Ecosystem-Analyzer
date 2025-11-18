@@ -1,66 +1,124 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>AI Ecosystem Analyzer</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        .card { 
-            padding: 15px; 
-            margin: 10px; 
-            border: 1px solid #aaa; 
-            border-radius: 8px;
-            width: 250px;
-            display: inline-block;
-            background: #f2f2f2;
-        }
-        h1 { color: green; }
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Ecosystem Analyzer - Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="navbar-title">🌱 AI Powered Ecosystem Analyzer</div>
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('alerts_page') }}">Alerts</a>
+        <a href="{{ url_for('reports_page') }}">Reports</a>
+        <a href="{{ url_for('about') }}">About</a>
+      </div>
+    </div>
 
-<h1>🌱 AI Powered Ecosystem Analyzer</h1>
+    <div class="container">
+      <div class="main-panel">
+        <h1 class="page-title">Dashboard Overview</h1>
+        <p class="page-subtitle">
+          Environmental statistics, alerts summary and AQI prediction panel.
+        </p>
 
-<h2>Dashboard Overview</h2>
+        <!-- Top stats -->
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-label">Average Temperature</div>
+            <div class="card-value">{{ avg_temp }} °C</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Average Humidity</div>
+            <div class="card-value">{{ avg_humidity }} %</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Average AQI</div>
+            <div class="card-value">{{ avg_aqi }}</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Max AQI Recorded</div>
+            <div class="card-value">{{ max_aqi }}</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Latest Temperature</div>
+            <div class="card-value">{{ latest_temp }} °C</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Latest Humidity</div>
+            <div class="card-value">{{ latest_humidity }} %</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Latest AQI</div>
+            <div class="card-value">{{ latest_aqi }}</div>
+          </div>
+        </div>
 
-<div class="card">Average Temperature: <b>{{ avg_temp }}°C</b></div>
-<div class="card">Average Humidity: <b>{{ avg_humidity }}%</b></div>
-<div class="card">Average AQI: <b>{{ avg_aqi }}</b></div>
-<div class="card">Max AQI Recorded: <b>{{ max_aqi }}</b></div>
+        <!-- Alert summary -->
+        <div class="section">
+          <h2 class="section-title">Alert Summary</h2>
+          <p><b>High Temperature Alerts:</b> {{ high_temp_count }}</p>
+          <p><b>Low Humidity Alerts:</b> {{ low_hum_count }}</p>
+          <p><b>High AQI Alerts:</b> {{ high_aqi_count }}</p>
+          <p style="margin-top: 8px">
+            <a href="{{ url_for('alerts_page') }}">➡ View Detailed Alerts</a> |
+            <a href="{{ url_for('reports_page') }}">📄 View Daily Reports</a>
+          </p>
+        </div>
 
-<div class="card">Latest Temperature: <b>{{ latest_temp }}°C</b></div>
-<div class="card">Latest Humidity: <b>{{ latest_humidity }}%</b></div>
-<div class="card">Latest AQI: <b>{{ latest_aqi }}</b></div>
+        <!-- Chart -->
+        <div class="section">
+          <h2 class="section-title">AQI Trend Chart</h2>
+          <img
+            src="{{ url_for('static', filename='aqi_plot.png') }}"
+            class="chart-img"
+            alt="AQI Trend"
+          />
+        </div>
 
-<hr>
+        <!-- Table -->
+        <div class="section">
+          <h2 class="section-title">Sample Environmental Data</h2>
+          {{ table_html | safe }}
+        </div>
 
-<h2>Alert Summary</h2>
+        <!-- Prediction form -->
+        <div class="section">
+    <h2 class="section-title">Predict AQI</h2>
 
-<p><b>High Temperature Alerts:</b> {{ high_temp_count }}</p>
-<p><b>Low Humidity Alerts:</b> {{ low_hum_count }}</p>
-<p><b>High AQI Alerts:</b> {{ high_aqi_count }}</p>
+    <div class="prediction-card">
+        <form action="{{ url_for('predict') }}" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Temperature (°C)</label>
+                    <input type="number" step="0.1" name="temperature" required>
+                </div>
+                <div class="form-group">
+                    <label>Humidity (%)</label>
+                    <input type="number" step="0.1" name="humidity" required>
+                </div>
+                <div class="form-group">
+                    <label>PM2.5</label>
+                    <input type="number" step="0.1" name="pm25" required>
+                </div>
+                <div class="form-group">
+                    <label>PM10</label>
+                    <input type="number" step="0.1" name="pm10" required>
+                </div>
+            </div>
 
-<p><a href="/alerts">➡ View Detailed Alerts</a></p>
+            <div class="prediction-actions">
+                <button type="submit" class="btn">Predict AQI</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<hr>
-
-<h2>AQI Trend Chart</h2>
-<img src="/static/aqi_plot.png" width="600">
-
-<hr>
-
-<h2>Sample Environmental Data</h2>
-{{ table_html|safe }}
-<hr>
-
-<h2>Predict AQI</h2>
-<form action="/predict" method="POST">
-    <p>Temperature: <input type="number" step="0.1" name="temperature" required></p>
-    <p>Humidity: <input type="number" step="0.1" name="humidity" required></p>
-    <p>PM2.5: <input type="number" step="0.1" name="pm25" required></p>
-    <p>PM10: <input type="number" step="0.1" name="pm10" required></p>
-    <button type="submit">Predict AQI</button>
-</form>
-
-</body>
+      </div>
+    </div>
+  </body>
 </html>
-

@@ -50,9 +50,46 @@ def generate_alerts(dataframe):
 
     return alerts
 
+def generate_daily_reports(dataframe, alerts):
+    # Date ko string bana dete hain (safety)
+    dataframe["date"] = dataframe["date"].astype(str)
+
+    # Group by date for daily stats
+    grouped = dataframe.groupby("date").agg({
+        "temperature": "mean",
+        "humidity": "mean",
+        "aqi": ["mean", "max"]
+    })
+
+    # MultiIndex columns ko simple bana rahe
+    grouped.columns = ["avg_temp", "avg_humidity", "avg_aqi", "max_aqi"]
+    grouped = grouped.reset_index()
+
+    # Alerts ko date ke hisaab se count karenge
+    alert_count_by_date = {}
+    for a in alerts:
+        d = a["date"]
+        alert_count_by_date[d] = alert_count_by_date.get(d, 0) + 1
+
+    # Final list of dicts (har row ek report)
+    reports = []
+    for _, row in grouped.iterrows():
+        date_str = row["date"]
+        reports.append({
+            "date": date_str,
+            "avg_temp": round(row["avg_temp"], 2),
+            "avg_humidity": round(row["avg_humidity"], 2),
+            "avg_aqi": round(row["avg_aqi"], 2),
+            "max_aqi": round(row["max_aqi"], 2),
+            "alert_count": alert_count_by_date.get(date_str, 0)
+        })
+
+    return reports
+
 
 # Alerts list once (data static hai)
 ALERTS = generate_alerts(df)
+REPORTS = generate_daily_reports(df, ALERTS)
 
 
 # ============================
@@ -112,6 +149,9 @@ def home():
 def alerts_page():
     return render_template("alerts.html", alerts=ALERTS)
 
+@app.route("/reports")
+def reports_page():
+    return render_template("reports.html", reports=REPORTS)
 
 # ============================
 #  PREDICTION ROUTE
@@ -137,6 +177,9 @@ def predict():
 
     return render_template("result.html", aqi=predicted_aqi, risk=risk)
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

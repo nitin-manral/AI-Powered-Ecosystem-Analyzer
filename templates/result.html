@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AQI Prediction Result</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        h1 { color: blue; }
-    </style>
+    <meta charset="UTF-8">
+    <title>Prediction Result - AI Ecosystem Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<h1>🔍 AQI Prediction Result</h1>
+<div class="navbar">
+    <div class="navbar-title">🌱 AI Powered Ecosystem Analyzer</div>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('alerts_page') }}">Alerts</a>
+        <a href="{{ url_for('reports_page') }}">Reports</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </div>
+</div>
 
-<h2>Predicted AQI: {{ aqi }}</h2>
-<h3>Risk Level: {{ risk }}</h3>
+<div class="container">
+    <div class="main-panel result-panel">
+        <h1 class="page-title">Prediction Result</h1>
+        <p class="page-subtitle">
+            AI model prediction based on your input environmental parameters.
+        </p>
 
-<br>
-<a href="/">⬅ Back to Dashboard</a>
+        <div class="result-box">
+            <div>
+                <span class="result-label">Predicted AQI</span>
+                <span class="result-value">{{ aqi | round(2) }}</span>
+            </div>
+
+            <div class="result-risk-line">
+                <span class="result-label">Risk Level</span>
+                <span class="risk-badge">{{ risk }}</span>
+            </div>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="btn-outline">⬅ Back to Dashboard</a>
+    </div>
+</div>
 
 </body>
 </html>
-
