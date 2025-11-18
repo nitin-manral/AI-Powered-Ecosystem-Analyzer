@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alerts - AI Ecosystem Analyzer</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #aaa; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h1>🚨 Ecosystem Alerts</h1>
+
+<p><a href="/">⬅ Back to Dashboard</a></p>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Value</th>
+        <th>Message</th>
+    </tr>
+    {% for alert in alerts %}
+    <tr>
+        <td>{{ alert.date }}</td>
+        <td>{{ alert.type }}</td>
+        <td>{{ alert.value }}</td>
+        <td>{{ alert.message }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

@@ -1,24 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AI Powered Ecosystem Analyzer</title>
+    <title>AI Ecosystem Analyzer</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .card { 
+            padding: 15px; 
+            margin: 10px; 
+            border: 1px solid #aaa; 
+            border-radius: 8px;
+            width: 250px;
+            display: inline-block;
+            background: #f2f2f2;
+        }
+        h1 { color: green; }
+    </style>
 </head>
 <body>
-    <h1>🌱 AI Powered Ecosystem Analyzer</h1>
-    <h2>Sample Dataset</h2>
-    {{ titles }}
-    {{ tables|safe }}
 
-    <hr>
+<h1>🌱 AI Powered Ecosystem Analyzer</h1>
 
-    <h2>Predict AQI</h2>
-    <form action="/predict" method="POST">
-        Temperature: <input type="number" name="temperature" step="0.1" required><br><br>
-        Humidity: <input type="number" name="humidity" step="0.1" required><br><br>
-        PM2.5: <input type="number" name="pm25" step="0.1" required><br><br>
-        PM10: <input type="number" name="pm10" step="0.1" required><br><br>
+<h2>Dashboard Overview</h2>
 
-        <button type="submit">Predict AQI</button>
-    </form>
+<div class="card">Average Temperature: <b>{{ avg_temp }}°C</b></div>
+<div class="card">Average Humidity: <b>{{ avg_humidity }}%</b></div>
+<div class="card">Average AQI: <b>{{ avg_aqi }}</b></div>
+<div class="card">Max AQI Recorded: <b>{{ max_aqi }}</b></div>
+
+<div class="card">Latest Temperature: <b>{{ latest_temp }}°C</b></div>
+<div class="card">Latest Humidity: <b>{{ latest_humidity }}%</b></div>
+<div class="card">Latest AQI: <b>{{ latest_aqi }}</b></div>
+
+<hr>
+
+<h2>Alert Summary</h2>
+
+<p><b>High Temperature Alerts:</b> {{ high_temp_count }}</p>
+<p><b>Low Humidity Alerts:</b> {{ low_hum_count }}</p>
+<p><b>High AQI Alerts:</b> {{ high_aqi_count }}</p>
+
+<p><a href="/alerts">➡ View Detailed Alerts</a></p>
+
+<hr>
+
+<h2>AQI Trend Chart</h2>
+<img src="/static/aqi_plot.png" width="600">
+
+<hr>
+
+<h2>Sample Environmental Data</h2>
+{{ table_html|safe }}
+<hr>
+
+<h2>Predict AQI</h2>
+<form action="/predict" method="POST">
+    <p>Temperature: <input type="number" step="0.1" name="temperature" required></p>
+    <p>Humidity: <input type="number" step="0.1" name="humidity" required></p>
+    <p>PM2.5: <input type="number" step="0.1" name="pm25" required></p>
+    <p>PM10: <input type="number" step="0.1" name="pm10" required></p>
+    <button type="submit">Predict AQI</button>
+</form>
+
 </body>
 </html>
+
