@@ -1,44 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Prediction Result - AI Ecosystem Analyzer</title>
+    <title>AQI Prediction Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <style>
+        /* Page Centering */
+        .result-wrapper {
+            max-width: 760px;
+            margin: 80px auto;
+            text-align: center;
+        }
 
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: .2s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .aqi-number {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin: 10px 0 0;
+            color: var(--text-color);
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .good { background:#dcfce7; color:#166534; }
+        .moderate { background:#fef9c3; color:#854d0e; }
+        .unhealthy { background:#fee2e2; color:#7f1d1d; }
+        .hazardous { background:#fbcfe8; color:#831843; }
+
+        .explain {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body data-theme="dark" class="page-fade">
+
+<!-- Navbar stays same -->
 <div class="navbar">
     <div class="navbar-title">🌱 AI Powered Ecosystem Analyzer</div>
     <div class="nav-links">
-        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('home') }}">Dashboard</a>
         <a href="{{ url_for('alerts_page') }}">Alerts</a>
         <a href="{{ url_for('reports_page') }}">Reports</a>
         <a href="{{ url_for('about') }}">About</a>
     </div>
-</div>
-
-<div class="container">
-    <div class="main-panel result-panel">
-        <h1 class="page-title">Prediction Result</h1>
-        <p class="page-subtitle">
-            AI model prediction based on your input environmental parameters.
-        </p>
-
-        <div class="result-box">
-            <div>
-                <span class="result-label">Predicted AQI</span>
-                <span class="result-value">{{ aqi | round(2) }}</span>
-            </div>
-
-            <div class="result-risk-line">
-                <span class="result-label">Risk Level</span>
-                <span class="risk-badge">{{ risk }}</span>
-            </div>
-        </div>
-
-        <a href="{{ url_for('home') }}" class="btn-outline">⬅ Back to Dashboard</a>
+    <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle">🌙 Dark / ☀ Light</button>
     </div>
 </div>
+
+
+<div class="result-wrapper">
+    
+    <h1 class="page-title">AQI Prediction Result</h1>
+    <p class="page-subtitle">Based on the environmental conditions you entered.</p>
+
+    <div class="result-card">
+        
+        <div class="result-title">Predicted AQI</div>
+        <div class="aqi-number">{{ aqi }}</div>
+
+        <!-- Status Badge -->
+        <div class="risk-badge 
+            {% if 'GOOD' in risk %}good{% 
+               elif 'MODERATE' in risk %}moderate{% 
+               elif 'UNHEALTHY' in risk %}unhealthy{% 
+               else %}hazardous{% endif %}">
+            {{ risk }}
+        </div>
+
+        <p class="explain">
+            *This is an estimated value from the trained model and may not reflect real-time official AQI measurements.*
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('home') }}" class="btn" style="margin-top:25px;">
+        ⬅ Back to Dashboard
+    </a>
+
+</div>
+
+
+<script>
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+
+    const savedTheme = localStorage.getItem("theme");
+    body.setAttribute("data-theme", savedTheme || "dark");
+    themeToggle.textContent = savedTheme === "light" ? "☀" : "🌙";
+
+    themeToggle.addEventListener("click", () => {
+        const current = body.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        themeToggle.textContent = next === "light" ? "☀" : "🌙";
+    });
+</script>
 
 </body>
 </html>

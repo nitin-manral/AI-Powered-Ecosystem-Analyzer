@@ -1,64 +1,192 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>About - AI Ecosystem Analyzer</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="navbar">
-      <div class="navbar-title">🌱 AI Powered Ecosystem Analyzer</div>
-      <div class="nav-links">
-        <a href="{{ url_for('home') }}">Home</a>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About – AI Powered Ecosystem Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body data-theme="dark" class="page-fade">
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="navbar-title">🌱 AI Powered Ecosystem Analyzer</div>
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Dashboard</a>
         <a href="{{ url_for('alerts_page') }}">Alerts</a>
         <a href="{{ url_for('reports_page') }}">Reports</a>
-        <a href="{{ url_for('about') }}">About</a>
-      </div>
+        <a href="{{ url_for('about') }}" class="nav-link-active">About</a>
     </div>
-
-    <div class="container">
-      <div class="container">
-        <h1 class="page-title">About This Project</h1>
-        <p class="page-subtitle">
-          MCA project on AI-based environmental monitoring and decision support.
-        </p>
-
-        <div class="about-section">
-          <p>
-            This website is part of the
-            <b>AI Powered Ecosystem Analyzer</b> project. It uses environmental
-            data and an AI model (Random Forest) to:
-          </p>
-
-          <ul>
-            <li>Monitor daily environmental parameters</li>
-            <li>Analyze AQI and pollution risks</li>
-            <li>Generate alerts (High Temperature, Low Humidity, High AQI)</li>
-            <li>Predict AQI using Machine Learning</li>
-            <li>Display daily reports summarizing ecosystem conditions</li>
-          </ul>
-
-          <h2 class="section-title">Tools & Technologies</h2>
-          <ul>
-            <li>Python, Flask</li>
-            <li>Pandas, NumPy</li>
-            <li>Scikit-Learn (Random Forest)</li>
-            <li>Matplotlib</li>
-            <li>HTML, CSS</li>
-          </ul>
-
-          <h2 class="section-title">Future Scope</h2>
-          <ul>
-            <li>Integration with real IoT sensors for live data</li>
-            <li>Mobile app for citizens and field officers</li>
-            <li>Cloud deployment (AWS / Azure) for scalability</li>
-            <li>Deep learning based advanced forecasting</li>
-          </ul>
-        </div>
-      </div>
+    <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle">🌙 Dark / ☀ Light</button>
     </div>
-  </body>
+</div>
+
+<main class="container">
+    <div class="dashboard-shell">
+
+        <!-- HERO -->
+        <section class="about-hero">
+            <h1 class="page-title">About This Project</h1>
+            <p class="page-subtitle about-subtitle">
+                AI Powered Ecosystem Analyzer is a smart environmental monitoring dashboard that
+                tracks air quality, soil, water, forest health and wildlife activity – all in one place.
+            </p>
+
+            <div class="about-tags">
+                <span class="about-tag">Major Project</span>
+                <span class="about-tag">Flask + Machine Learning</span>
+                <span class="about-tag">Environmental Analytics</span>
+            </div>
+        </section>
+
+        <!-- MAIN TWO-COLUMN LAYOUT -->
+        <section class="about-layout section">
+            <!-- Left column -->
+            <div class="about-left card">
+                <h2 class="section-title">What is it?</h2>
+                <p class="about-text">
+                    The system simulates an IoT-based environmental network where daily readings
+                    from air, soil, water and forest sensors are collected and analyzed.  
+                    Instead of showing raw numbers in a table, the dashboard converts them into
+                    meaningful insights: trends, alerts and predictions.
+                </p>
+
+                <h3 class="about-subheading">Goals</h3>
+                <ul class="about-list">
+                    <li>Provide a single view of ecosystem health across multiple indicators.</li>
+                    <li>Detect anomalies early using rule-based alerts.</li>
+                    <li>Estimate future air quality using a machine learning model.</li>
+                    <li>Present data in a clean, easy-to-understand dashboard.</li>
+                </ul>
+            </div>
+
+            <!-- Right column -->
+            <div class="about-right">
+                <div class="card about-facts">
+                    <h3 class="about-subheading">Quick Facts</h3>
+                    <dl class="facts-grid">
+                        <div>
+                            <dt>Project Type</dt>
+                            <dd>MCA Minor Project</dd>
+                        </div>
+                        <div>
+                            <dt>Model</dt>
+                            <dd>Random Forest Regressor</dd>
+                        </div>
+                        <div>
+                            <dt>Data</dt>
+                            <dd>Synthetic daily sensor readings</dd>
+                        </div>
+                        <div>
+                            <dt>Focus Areas</dt>
+                            <dd>Air, Soil, Water, Forest, Wildlife</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="card about-facts">
+                    <h3 class="about-subheading">Who is it for?</h3>
+                    <ul class="about-list">
+                        <li>Students exploring data science + environment.</li>
+                        <li>Researchers who want a quick prototype dashboard.</li>
+                        <li>Smart city / agriculture concept demonstrations.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT IT CAN DO -->
+        <section class="section">
+            <h2 class="section-title">What You Can Do With It</h2>
+            <p class="page-subtitle">
+                A quick overview of the core features available in the application.
+            </p>
+
+            <div class="card-grid-3col about-features">
+                <div class="card">
+                    <h3 class="about-subheading">📊 Monitor Daily Conditions</h3>
+                    <p class="about-text">
+                        View average and latest readings for temperature, humidity and AQI
+                        along with ecosystem health indicators like soil moisture, crop health,
+                        forest health, wildlife activity and water quality.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 class="about-subheading">🚨 Detect Environmental Alerts</h3>
+                    <p class="about-text">
+                        Automatically flag high AQI, extreme temperature, low humidity, poor
+                        soil moisture, forest stress, wildlife decline and water pollution –
+                        grouped into a clean, searchable alerts table.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3 class="about-subheading">🤖 Predict Air Quality</h3>
+                    <p class="about-text">
+                        Use the built-in machine learning model to estimate AQI from
+                        temperature, humidity, PM2.5 and PM10 values and categorize the
+                        risk level (Good, Moderate, Unhealthy, Hazardous).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECH STACK / CREDITS -->
+        <section class="section">
+            <h2 class="section-title">Under the Hood</h2>
+
+            <div class="card about-tech">
+                <div class="tech-columns">
+                    <div>
+                        <h3 class="about-subheading">Technology Stack</h3>
+                        <ul class="about-list">
+                            <li>Python (Flask) for backend and routing.</li>
+                            <li>Pandas for data handling & preprocessing.</li>
+                            <li>Scikit-Learn Random Forest model for AQI prediction.</li>
+                            <li>Matplotlib for generating trend charts.</li>
+                            <li>HTML, CSS and a bit of JS for the front-end UI.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="about-subheading">Design Choices</h3>
+                        <ul class="about-list">
+                            <li>Light & dark mode for comfortable viewing.</li>
+                            <li>Card-based layout for quick scanning of metrics.</li>
+                            <li>Simple animations to make the dashboard feel alive.</li>
+                            <li>Responsive layout that works on different screen sizes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- THEME TOGGLE SCRIPT (same as index.html) -->
+<script>
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+        body.setAttribute("data-theme", savedTheme);
+        themeToggle.textContent = savedTheme === "dark" ? "🌙 Dark" : "☀ Light";
+    } else {
+        body.setAttribute("data-theme", "dark");
+        themeToggle.textContent = "🌙 Dark";
+    }
+
+    themeToggle.addEventListener("click", () => {
+        const current = body.getAttribute("data-theme") || "dark";
+        const next = current === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        themeToggle.textContent = next === "dark" ? "🌙 Dark" : "☀ Light";
+    });
+</script>
+
+</body>
 </html>

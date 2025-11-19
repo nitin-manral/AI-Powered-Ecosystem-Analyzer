@@ -1,124 +1,376 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>AI Ecosystem Analyzer - Dashboard</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
-  <body>
-    <div class="navbar">
-      <div class="navbar-title">🌱 AI Powered Ecosystem Analyzer</div>
-      <div class="nav-links">
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('alerts_page') }}">Alerts</a>
-        <a href="{{ url_for('reports_page') }}">Reports</a>
-        <a href="{{ url_for('about') }}">About</a>
-      </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - AI Ecosystem Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body data-theme="dark" class="page-fade">
+
+<!-- ================= HEADER / NAVBAR ================= -->
+<header class="navbar">
+    <div class="navbar-left">
+        <div class="navbar-logo">🌱</div>
+        <div class="navbar-title-group">
+            <div class="navbar-title">AI Powered Ecosystem Analyzer</div>
+            <div class="navbar-subtitle">Air • Soil • Water • Forest • Wildlife</div>
+        </div>
     </div>
 
-    <div class="container">
-      <div class="main-panel">
-        <h1 class="page-title">Dashboard Overview</h1>
-        <p class="page-subtitle">
-          Environmental statistics, alerts summary and AQI prediction panel.
-        </p>
+    <nav class="nav-links" aria-label="Main navigation">
+        <a href="{{ url_for('home') }}" class="nav-link active">Dashboard</a>
+        <a href="{{ url_for('alerts_page') }}" class="nav-link">Alerts</a>
+        <a href="{{ url_for('reports_page') }}" class="nav-link">Reports</a>
+        <a href="{{ url_for('about') }}" class="nav-link">About</a>
+    </nav>
 
-        <!-- Top stats -->
-        <div class="card-grid">
-          <div class="card">
-            <div class="card-label">Average Temperature</div>
-            <div class="card-value">{{ avg_temp }} °C</div>
-          </div>
-          <div class="card">
-            <div class="card-label">Average Humidity</div>
-            <div class="card-value">{{ avg_humidity }} %</div>
-          </div>
-          <div class="card">
-            <div class="card-label">Average AQI</div>
-            <div class="card-value">{{ avg_aqi }}</div>
-          </div>
-          <div class="card">
-            <div class="card-label">Max AQI Recorded</div>
-            <div class="card-value">{{ max_aqi }}</div>
-          </div>
-          <div class="card">
-            <div class="card-label">Latest Temperature</div>
-            <div class="card-value">{{ latest_temp }} °C</div>
-          </div>
-          <div class="card">
-            <div class="card-label">Latest Humidity</div>
-            <div class="card-value">{{ latest_humidity }} %</div>
-          </div>
-          <div class="card">
-            <div class="card-label">Latest AQI</div>
-            <div class="card-value">{{ latest_aqi }}</div>
-          </div>
-        </div>
+    <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">
+            🌙
+        </button>
+    </div>
+</header>
 
-        <!-- Alert summary -->
-        <div class="section">
-          <h2 class="section-title">Alert Summary</h2>
-          <p><b>High Temperature Alerts:</b> {{ high_temp_count }}</p>
-          <p><b>Low Humidity Alerts:</b> {{ low_hum_count }}</p>
-          <p><b>High AQI Alerts:</b> {{ high_aqi_count }}</p>
-          <p style="margin-top: 8px">
-            <a href="{{ url_for('alerts_page') }}">➡ View Detailed Alerts</a> |
-            <a href="{{ url_for('reports_page') }}">📄 View Daily Reports</a>
-          </p>
-        </div>
+<!-- ================= MAIN CONTENT ================= -->
+<main class="container">
+    <div class="dashboard-shell">
 
-        <!-- Chart -->
-        <div class="section">
-          <h2 class="section-title">AQI Trend Chart</h2>
-          <img
-            src="{{ url_for('static', filename='aqi_plot.png') }}"
-            class="chart-img"
-            alt="AQI Trend"
-          />
-        </div>
+        <!-- ========= PAGE INTRO ========= -->
+        <section class="page-header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">
+                Real-time environmental insights across climate, soil, water, forest and wildlife.
+            </p>
+        </section>
 
-        <!-- Table -->
-        <div class="section">
-          <h2 class="section-title">Sample Environmental Data</h2>
-          {{ table_html | safe }}
-        </div>
-
-        <!-- Prediction form -->
-        <div class="section">
-    <h2 class="section-title">Predict AQI</h2>
-
-    <div class="prediction-card">
-        <form action="{{ url_for('predict') }}" method="POST">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Temperature (°C)</label>
-                    <input type="number" step="0.1" name="temperature" required>
-                </div>
-                <div class="form-group">
-                    <label>Humidity (%)</label>
-                    <input type="number" step="0.1" name="humidity" required>
-                </div>
-                <div class="form-group">
-                    <label>PM2.5</label>
-                    <input type="number" step="0.1" name="pm25" required>
-                </div>
-                <div class="form-group">
-                    <label>PM10</label>
-                    <input type="number" step="0.1" name="pm10" required>
-                </div>
+        <!-- ========= CLIMATE SNAPSHOT ========= -->
+        <section aria-label="Climate Snapshot" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Climate Snapshot</h2>
+                <p class="section-subtitle">Key averages and most recent readings from the field.</p>
             </div>
 
-            <div class="prediction-actions">
-                <button type="submit" class="btn">Predict AQI</button>
-            </div>
-        </form>
-    </div>
-</div>
+            <div class="card-grid card-grid-2col">
+                <!-- Averages -->
+                <article class="card metric-group">
+                    <h3 class="metric-title">Averages (Last 24h)</h3>
+                    <div class="metric-row">
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">🌡️</span>Average Temperature
+                            </span>
+                            <span class="metric-value">{{ avg_temp }}°C</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">💧</span>Average Humidity
+                            </span>
+                            <span class="metric-value">{{ avg_humidity }}%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">🏭</span>Average AQI
+                            </span>
+                            <span class="metric-value">{{ avg_aqi }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">📈</span>Max AQI Recorded
+                            </span>
+                            <span class="metric-value">{{ max_aqi }}</span>
+                        </div>
+                    </div>
+                </article>
 
-      </div>
+                <!-- Latest readings -->
+                <article class="card metric-group">
+                    <h3 class="metric-title">Latest Readings</h3>
+                    <div class="metric-row">
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">🌡️</span>Temperature (Now)
+                            </span>
+                            <span class="metric-value">{{ latest_temp }}°C</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">💧</span>Humidity (Now)
+                            </span>
+                            <span class="metric-value">{{ latest_humidity }}%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">
+                                <span class="metric-icon">🏭</span>AQI (Now)
+                            </span>
+                            <span class="metric-value">{{ latest_aqi }}</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========= ECOSYSTEM HEALTH ========= -->
+        <section aria-label="Ecosystem Health" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Ecosystem Health Overview</h2>
+                <p class="section-subtitle">
+                    Soil moisture, crop health, forest condition, wildlife activity and water quality indicators.
+                </p>
+            </div>
+
+            <div class="card-grid card-grid-3col">
+                <!-- Soil -->
+                <article class="card health-card">
+                    <header class="health-tag">
+                        <span class="health-emoji">🌱</span>
+                        <span class="health-label">Soil Moisture</span>
+                    </header>
+                    <div class="health-main">
+                        <div class="card-value">{{ avg_soil_moisture }}%</div>
+                        <div class="health-bar">
+                            <div class="health-fill" style="--target-width: {{ avg_soil_moisture }}%;"></div>
+                        </div>
+                        <p class="health-note">
+                            Healthy range for crops is roughly 30–60%. Lower values may indicate drought risk.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Crop -->
+                <article class="card health-card">
+                    <header class="health-tag">
+                        <span class="health-emoji">🌾</span>
+                        <span class="health-label">Crop Health Index</span>
+                    </header>
+                    <div class="health-main">
+                        <div class="card-value">{{ avg_crop_health }}</div>
+                        <div class="health-bar">
+                            <div class="health-fill" style="--target-width: {{ avg_crop_health }}%;"></div>
+                        </div>
+                        <p class="health-note">
+                            Higher index means better crop condition and vegetation cover.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Forest -->
+                <article class="card health-card">
+                    <header class="health-tag">
+                        <span class="health-emoji">🌲</span>
+                        <span class="health-label">Forest Health</span>
+                    </header>
+                    <div class="health-main">
+                        <div class="card-value">{{ avg_forest_health }}</div>
+                        <div class="health-bar">
+                            <div class="health-fill" style="--target-width: {{ avg_forest_health }}%;"></div>
+                        </div>
+                        <p class="health-note">
+                            Tracks forest stress and vegetation degradation over time.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Wildlife -->
+                <article class="card health-card">
+                    <header class="health-tag">
+                        <span class="health-emoji">🐾</span>
+                        <span class="health-label">Wildlife Activity</span>
+                    </header>
+                    <div class="health-main">
+                        <div class="card-value">{{ avg_wildlife }}</div>
+                        <div class="health-bar">
+                            <div class="health-fill" style="--target-width: {{ avg_wildlife }}%;"></div>
+                        </div>
+                        <p class="health-note">
+                            Lower values may indicate habitat disturbance or biodiversity loss.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Water -->
+                <article class="card health-card">
+                    <header class="health-tag">
+                        <span class="health-emoji">💧</span>
+                        <span class="health-label">Water Quality Index</span>
+                    </header>
+                    <div class="health-main">
+                        <div class="card-value">{{ avg_water_quality }}</div>
+                        <div class="health-bar">
+                            <div class="health-fill" style="--target-width: {{ avg_water_quality }}%;"></div>
+                        </div>
+                        <p class="health-note">
+                            Tracks pollution levels in rivers and lakes; higher is cleaner and safer.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========= ALERT SUMMARY ========= -->
+        <section aria-label="Alert Summary" class="section">
+            <div class="section-header section-header-inline">
+                <div>
+                    <h2 class="section-title">Alert Summary</h2>
+                    <p class="section-subtitle">Recent anomalies detected across climate indicators.</p>
+                </div>
+                <a href="{{ url_for('alerts_page') }}" class="btn btn-outline">
+                    View Detailed Alerts ➜
+                </a>
+            </div>
+
+            <div class="card-grid card-grid-3col">
+                <article class="card">
+                    <div class="card-label">High Temperature Alerts</div>
+                    <div class="card-value alert-value">{{ high_temp_count }}</div>
+                </article>
+
+                <article class="card">
+                    <div class="card-label">Low Humidity Alerts</div>
+                    <div class="card-value alert-value">{{ low_hum_count }}</div>
+                </article>
+
+                <article class="card">
+                    <div class="card-label">High AQI Alerts</div>
+                    <div class="card-value alert-value">{{ high_aqi_count }}</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========= TRENDS & CHARTS ========= -->
+        <section aria-label="AQI Trend" class="section">
+    <div class="section-header">
+        <h2 class="section-title">AQI Trend Over Time</h2>
+        <p class="section-subtitle">Long-term air quality trend for the monitored region.</p>
     </div>
-  </body>
+
+    <div class="chart-wrapper">
+        <article class="card chart-card">
+            <img src="{{ url_for('static', filename='aqi_plot.png') }}"
+                 class="chart-img" alt="AQI Trend">
+        </article>
+    </div>
+</section>
+
+
+        <section aria-label="Ecosystem Trends" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Ecosystem Trends</h2>
+                <p class="section-subtitle">How key ecosystem indicators evolve over time.</p>
+            </div>
+
+            <div class="chart-grid">
+                <article class="card chart-card">
+                    <h3 class="chart-title">Soil Moisture Trend</h3>
+                    <img src="{{ url_for('static', filename='soil_plot.png') }}"
+                         class="chart-img" alt="Soil Moisture Trend">
+                </article>
+
+                <article class="card chart-card">
+                    <h3 class="chart-title">Water Quality Trend</h3>
+                    <img src="{{ url_for('static', filename='water_plot.png') }}"
+                         class="chart-img" alt="Water Quality Trend">
+                </article>
+
+                <article class="card chart-card">
+                    <h3 class="chart-title">Forest Health Trend</h3>
+                    <img src="{{ url_for('static', filename='forest_plot.png') }}"
+                         class="chart-img" alt="Forest Health Trend">
+                </article>
+
+                <article class="card chart-card">
+                    <h3 class="chart-title">Wildlife Activity Trend</h3>
+                    <img src="{{ url_for('static', filename='wildlife_plot.png') }}"
+                         class="chart-img" alt="Wildlife Activity Trend">
+                </article>
+            </div>
+        </section>
+
+        <!-- ========= DATA TABLE ========= -->
+        <section aria-label="Sample Environmental Data" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Sample Environmental Data</h2>
+                <p class="section-subtitle">
+                    Raw sensor values used to compute the above metrics and insights.
+                </p>
+            </div>
+            <div class="card table-card">
+                {{ table_html|safe }}
+            </div>
+        </section>
+
+        <!-- ========= PREDICTION FORM ========= -->
+        <section aria-label="Predict AQI" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Predict AQI</h2>
+                <p class="section-subtitle">
+                    Enter current conditions to estimate the expected Air Quality Index.
+                </p>
+            </div>
+
+            <article class="card form-card">
+                <form action="{{ url_for('predict') }}" method="POST" class="aqi-form">
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="temperature">Temperature (°C)</label>
+                            <input id="temperature" type="number" step="0.1" name="temperature" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="humidity">Humidity (%)</label>
+                            <input id="humidity" type="number" step="0.1" name="humidity" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="pm25">PM2.5 (µg/m³)</label>
+                            <input id="pm25" type="number" step="0.1" name="pm25" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="pm10">PM10 (µg/m³)</label>
+                            <input id="pm10" type="number" step="0.1" name="pm10" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Predict AQI</button>
+                    </div>
+                </form>
+            </article>
+        </section>
+
+        <!-- ========= FOOTER ========= -->
+        <footer class="footer">
+            <p class="muted">
+                 AI Powered Ecosystem Analyzer • Real-time monitoring of Air, Soil, Forest, Wildlife & Water
+            </p>
+        </footer>
+
+    </div> <!-- /dashboard-shell -->
+</main>
+
+<!-- ================= THEME TOGGLE SCRIPT ================= -->
+<script>
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+        body.setAttribute("data-theme", savedTheme);
+        themeToggle.textContent = savedTheme === "dark" ? "🌙" : "☀";
+    } else {
+        body.setAttribute("data-theme", "dark");
+        themeToggle.textContent = "🌙";
+    }
+
+    themeToggle.addEventListener("click", () => {
+        const current = body.getAttribute("data-theme") || "dark";
+        const next = current === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        themeToggle.textContent = next === "dark" ? "🌙" : "☀";
+    });
+</script>
+
+</body>
 </html>
